@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
+<style>
+#do-over {
+  visibility: <?= doOverVisibility ?>;
+}
+#verifier-input {
+  visibility: <?= verifierInputVisibility ?>;
+}
+
+</style>
+
+<div>
+ You need to authorize this app to work with <?= displayName ?>.
+</div>
+
+<div>
+  <h3>Authorize</h3>
+  <p>
+    This button will open a new window, where your <?= displayName ?> account will ask you to authorize <?= appName ?>.
+  </p>
+  <a href='<?= url ?>' target='_new' class='button'>Authorize</a>
+</div>
+
+<div id='verifier-input'>
+  <h3>Paste Code</h3>
+  <p>
+    If <?= displayName ?> gave you a code, paste that in the box below then you're good to go.
+  </p>
+  <input type='text' id='authorization-code' name='authorization-code' data-service-name='<?= serviceName ?>' placeholder='your authorization code' />
+</div>
+
+<div id='do-over'>
+  <h3>Do Over</h3>
+  <p>
+    You probably need to re-do whatever you did that made this dialog show up. (sorry!)
+  </p>
+</div>
+
+<div>
+  <div id='ok' class='button'>Ok</div>
+  <div id='cancel' class='button'>Close</div>
+</div>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+<script>
+
+$('#ok').click(function() {
+  var input,
+      value,
+      serviceName;
+      
+  input = $('#authorization-code');
+  value = input.val();
+  serviceName = input.data('serviceName');
+  
+  google.script.run.dialogOk(value, serviceName);
+  google.script.host.close();
+});
+
+$('#cancel').click(function() {
+  google.script.host.close();
+});
+
+</script>
